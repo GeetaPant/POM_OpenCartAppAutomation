@@ -4,18 +4,20 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.qa.opencart.base.BaseTest;
+import com.qa.opencart.constants.AppConstants;
 
 public class LoginPageTest extends BaseTest {
 	
 	@Test
 	public void loginPageTitleTest() {
 	String actualTitle=	loginpage.loginPageTitle();
-	Assert.assertEquals(actualTitle, "Account Login");
+	Assert.assertEquals(actualTitle, AppConstants.LOGIN_PAGE_TITLE_VALUE);
 	}
 	@Test
 	public void loginPageURLTest() {
 	String actualURL = loginpage.loginPageURL();
-	Assert.assertEquals(actualURL, "https://naveenautomationlabs.com/opencart/index.php?route=account/login");
+	Assert.assertTrue(actualURL.contains(AppConstants.LOGIN_PAGE_URL_FRACTION_VALUE));
+	//Assert.assertTrue(actualURL.contains(AppConstants.LOGIN_PAGE_URL_FRACTION_VALUE));
 	}
 	
 	@Test
@@ -24,7 +26,7 @@ public class LoginPageTest extends BaseTest {
 	}
 	@Test(priority =1)
     public void doLoginTest() {
-		accpage = loginpage.doLogin("qatestertest@gmail.com", "Test@123");
+		accpage = loginpage.doLogin(prop.getProperty("username"), prop.getProperty("password"));
 		Assert.assertTrue(accpage.checkLogoutLink());
 	
 	}

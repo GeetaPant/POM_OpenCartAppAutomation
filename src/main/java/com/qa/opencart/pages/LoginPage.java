@@ -3,9 +3,13 @@ package com.qa.opencart.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.qa.opencart.constants.AppConstants;
+import com.qa.opencart.utils.ElementUtil;
+
 public class LoginPage {
 
 	private WebDriver driver;
+	private ElementUtil eleUtil;
 	
 	private By emailid = By.id("input-email");
 	private By password = By.id("input-password");
@@ -15,27 +19,28 @@ public class LoginPage {
 	
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
+		eleUtil = new ElementUtil(driver);
+		
 	}
 	public String loginPageTitle() {
-		String title = driver.getTitle();
+		String title = eleUtil.waitForTitleIsAndFetch(AppConstants.DEFAULT_SHORT_IMEOUT, AppConstants.LOGIN_PAGE_TITLE_VALUE);
 		System.out.println("Title of the page : "+ title);
 		return title;
 	}
 	public String loginPageURL() {
-		String url = driver.getCurrentUrl();
+		String url=eleUtil.waitForURLContainsAndFetch(AppConstants.DEFAULT_MEDIUM_IMEOUT,AppConstants.LOGIN_PAGE_URL_FRACTION_VALUE);
 		System.out.println("Current Page URL: "+ url);
 		return url;
 	}
 	
 	public boolean isForgetPasswordExist() {
-	return driver.findElement(forgotPwd).isDisplayed();	
-
+		return eleUtil.waitForElementVisible(forgotPwd, AppConstants.DEFAULT_MEDIUM_IMEOUT).isDisplayed();
 	}
 	
 	public AccountsPage doLogin(String un, String pwd) {
-	driver.findElement(emailid).sendKeys(un);
-	driver.findElement(password).sendKeys(pwd);
-	driver.findElement(loginBtn).click();
+	eleUtil.waitForElementPresence(emailid, AppConstants.DEFAULT_MEDIUM_IMEOUT).sendKeys(un);;
+	eleUtil.doSendKeys(password, pwd);
+	eleUtil.doClick(loginBtn);
 	return new AccountsPage(driver);
 	
 	}

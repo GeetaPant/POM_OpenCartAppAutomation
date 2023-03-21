@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.qa.opencart.base.BaseTest;
+import com.qa.opencart.constants.AppConstants;
 
 public class AccountsPageTest extends BaseTest {
 	
@@ -17,8 +18,7 @@ public class AccountsPageTest extends BaseTest {
 	@Test
 	public void getAccPageTitleTest() {
 		String title = accpage.getAccPageTitle();
-		Assert.assertEquals(title, "My Account");
-		
+		Assert.assertEquals(title, "My Account");	
 	}
 	@Test
 	public void checkLogoutLinkTest() {
@@ -33,7 +33,7 @@ public class AccountsPageTest extends BaseTest {
 	public void getAccountHeadersListTest() {
 		List<String> accHeaderList= accpage.getAccountHeadersList();
 		System.out.println("Account Page Headers are: "+accHeaderList);
-		Assert.assertEquals(accHeaderList.size(), 4);
+		Assert.assertEquals(accHeaderList.size(), AppConstants.ACCOUNTS_PAGE_HEADERS_COUNT);
 		}
 
 }

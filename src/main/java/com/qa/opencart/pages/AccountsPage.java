@@ -7,26 +7,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.qa.opencart.constants.AppConstants;
+import com.qa.opencart.utils.ElementUtil;
+
 public class AccountsPage {
 	private WebDriver driver;
 	private By logoutLink = By.linkText("Logout");
 	private By SearchBox = By.name("search");
 	private By accHeader = By.xpath("//div[@id='content']/h2");
+	private ElementUtil eleUtil;
 	
 	public AccountsPage(WebDriver driver) {
 		this.driver = driver;
+		eleUtil = new ElementUtil(driver);
 	}
 	public String getAccPageTitle() {
-		String accTitle= driver.getTitle();
+		String accTitle=eleUtil.waitForTitleIsAndFetch(AppConstants.DEFAULT_MEDIUM_IMEOUT, AppConstants.ACCOUNTS_PAGE_TITLE_VALUE);
+		
 		System.out.println("Title for accounts page: "+ accTitle);
 		return accTitle;
 }
 	public boolean checkLogoutLink() {
-		return driver.findElement(logoutLink).isDisplayed();
+		return eleUtil.waitForElementVisible(logoutLink, AppConstants.DEFAULT_SHORT_IMEOUT).isDisplayed();
 	}
 	
 	public boolean isSearchExist() {
-	 return driver.findElement(SearchBox).isDisplayed();
+		return eleUtil.waitForElementVisible(SearchBox, AppConstants.DEFAULT_MEDIUM_IMEOUT).isDisplayed();
 	}
 	
 	public List<String> getAccountHeadersList() {
