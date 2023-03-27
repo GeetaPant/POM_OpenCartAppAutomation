@@ -1,0 +1,64 @@
+package com.qa.opencart.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import com.qa.opencart.constants.AppConstants;
+import com.qa.opencart.utils.ElementUtil;
+
+public class RegisterPage {
+	
+	private WebDriver driver;
+	private ElementUtil eleUtil;
+
+	private By firstName = By.id("input-firstname");
+	private By lastName = By.id("input-lastname");
+	private By email = By.id("input-email");
+	private By telephone = By.id("input-telephone");
+	private By password = By.id("input-password");
+	private By confirmpassword = By.id("input-confirm");
+
+	private By agreeCheckBox = By.name("agree");
+	private By continueButton = By.xpath("//input[@type='submit' and @value='Continue']");
+
+	private By subscribeYes = By.xpath("//label[normalize-space()='Yes']/input[@type='radio']");
+	private By subscribeNo = By.xpath("//label[normalize-space()='No']/input[@type='radio']");
+
+	private By registerSuccessMesg = By.cssSelector("div#content h1");
+
+	private By logoutLink = By.linkText("Logout");
+	private By registerLink = By.linkText("Register");
+	
+	public RegisterPage(WebDriver driver) {
+		this.driver = driver;
+		eleUtil = new ElementUtil(driver);
+	}
+	public boolean registerUser(String fname, String lname, String emailID, String phone, String pwd, String subscribe) {
+		eleUtil.waitForElementVisible(firstName, AppConstants.DEFAULT_MEDIUM_IMEOUT).sendKeys(fname);
+		eleUtil.doSendKeys(lastName, lname);
+		eleUtil.doSendKeys(email, emailID);
+		eleUtil.doSendKeys(telephone, phone);
+		eleUtil.doSendKeys(password, pwd);
+		eleUtil.doSendKeys(confirmpassword, pwd);
+		
+		if(subscribe.equalsIgnoreCase("yes")) {
+			eleUtil.doClick(subscribeYes);
+		}
+		else {
+			eleUtil.doClick(subscribeNo);
+		}
+		eleUtil.doActionsClick(agreeCheckBox);
+		eleUtil.doClick(continueButton);
+		String successMsg =eleUtil.waitForElementVisible(registerSuccessMesg, AppConstants.DEFAULT_MEDIUM_IMEOUT).getText();
+		System.out.println("Success Message"+ successMsg);
+		if(successMsg.contains(AppConstants.REGISTER_SUCCESS_MESSAGE)) {
+			eleUtil.doClick(logoutLink);
+			eleUtil.doClick(registerLink);
+			return true;
+		} 	
+		return false;
+			
+		
+	}
+}

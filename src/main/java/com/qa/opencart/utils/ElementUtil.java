@@ -29,7 +29,9 @@ private WebDriver driver;
 		return driver.findElements(locator);
 }
 	public void doSendKeys(By locator, String value){
-		getElement(locator).sendKeys(value);
+		WebElement element = getElement(locator);
+		element.clear();
+		element.sendKeys(value);
 }
 	public  void doActionsSendKey(By locator, String value) {
 		Actions act = new Actions(driver);
@@ -141,7 +143,7 @@ private WebDriver driver;
 	public String waitForURLContainsAndFetch(int timeout, String URL) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
 		wait.until(ExpectedConditions.urlContains(URL));
-		 return driver.getTitle();
+		 return driver.getCurrentUrl();
 		}
 	
 	public List<WebElement> waitForElementsPresence(By locator, int timeOut) {

@@ -14,6 +14,7 @@ public class AccountsPage {
 	private WebDriver driver;
 	private By logoutLink = By.linkText("Logout");
 	private By SearchBox = By.name("search");
+	private By searchBtn = By.cssSelector("#search button");
 	private By accHeader = By.xpath("//div[@id='content']/h2");
 	private ElementUtil eleUtil;
 	
@@ -46,4 +47,17 @@ public class AccountsPage {
 		}
 		return accHeaderValList;
 	}
+	public SearchProductPage doProductSearch(String searchKey) {
+		if(isSearchExist()) {
+			eleUtil.doSendKeys(SearchBox, searchKey);
+			eleUtil.doClick(searchBtn);
+			return new SearchProductPage(driver);
+		}
+		else { 
+			System.out.println("Search do not exist");
+			return null;
+		}
+		
+	}
+	
 }
